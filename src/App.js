@@ -1,26 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import axios from 'axios';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            rooms: [],
+        };
+        this.interval = null;
+    }
+
+    componentDidMount() {
+        this.fetchData();
+
+        this.interval = setInterval(() => this.fetchData(), 10000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    async fetchData() {
+        const response = await axios.get('/rooms');
+        this.setState({ rooms: response.data });
+    }
+
+    render() {
+        const { rooms } = this.state;
+        return (
+            <div className="App">
+                <p>My Rooms :</p>
+                <div>
+                    {rooms.length > 0 ? (
+                        rooms.map(room => (
+                            <div className="room" key={room.id}>
+                                <p>{room.number}</p>
+                                <p>{room.type}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No rooms available.</p>
+                    )}
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;
