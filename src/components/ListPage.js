@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Room from './Room';
 
 class ListPage extends Component {
     constructor(props) {
@@ -51,12 +52,7 @@ class ListPage extends Component {
                         {error && <p>{error}</p>}
                         <div>
                             {rooms.length > 0 ? (
-                                rooms.map(room => (
-                                    <div className="room" key={room.id}>
-                                        <p>{room.number}</p>
-                                        <p>{room.type}</p>
-                                    </div>
-                                ))
+                                rooms.map(room => <Room key={room.id} {...room} />)
                             ) : (
                                 <p>No rooms available.</p>
                             )}
