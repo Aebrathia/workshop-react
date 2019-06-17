@@ -18,6 +18,9 @@
   },
   "eslintConfig": {
     "extends": "airbnb",
+    "env": {
+      "browser": true
+    },
     "rules": {
       "indent": [
         "error",

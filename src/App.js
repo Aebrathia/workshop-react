@@ -3,6 +3,7 @@ import './App.css';
 import { Route, Link } from 'react-router-dom';
 import ListPage from './components/ListPage';
 import CreatePage from './components/CreatePage';
+import EditPage from './components/EditPage';
 
 const App = () => (
     <div className="App">
@@ -16,6 +17,7 @@ const App = () => (
         </ul>
         <Route path="/view" component={ListPage} />
         <Route path="/create" component={CreatePage} />
+        <Route path="/edit/:id" component={EditPage} />
     </div>
 );
 
