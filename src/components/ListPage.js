@@ -16,7 +16,7 @@ class ListPage extends Component {
     componentDidMount() {
         this.fetchData();
 
-        this.interval = setInterval(() => this.fetchData(), 2000);
+        // this.interval = setInterval(() => this.fetchData(), 2000);
     }
 
     componentWillUnmount() {
@@ -31,16 +31,22 @@ class ListPage extends Component {
             // debugger;
             const status = (e.response && e.response.status) || e.message;
             switch (status) {
-            case 'Network Error':
-                this.setState({ error: e.message });
-                break;
-            case 401:
-                this.setState({ isAuthorized: false });
-                break;
-            default:
+                case 'Network Error':
+                    this.setState({ error: e.message });
+                    break;
+                case 401:
+                    this.setState({ isAuthorized: false });
+                    break;
+                default:
             }
         }
     }
+
+    deleteRoom = id => async e => {
+        e.preventDefault();
+        await axios.delete(`/rooms/${id}`);
+        this.setState(prevState => ({ rooms: prevState.rooms.filter(room => room.id !== id) }));
+    };
 
     render() {
         const { rooms, error, isAuthorized } = this.state;
@@ -52,7 +58,13 @@ class ListPage extends Component {
                         {error && <p>{error}</p>}
                         <div>
                             {rooms.length > 0 ? (
-                                rooms.map(room => <Room key={room.id} {...room} />)
+                                rooms.map(room => (
+                                    <Room
+                                        key={room.id}
+                                        {...room}
+                                        deleteRoom={this.deleteRoom(room.id)}
+                                    />
+                                ))
                             ) : (
                                 <p>No rooms available.</p>
                             )}
