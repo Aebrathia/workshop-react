@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Room from './Room';
+import { Container, Row, Col } from 'reactstrap';
 
 class ListPage extends Component {
     constructor(props) {
@@ -52,27 +53,35 @@ class ListPage extends Component {
         const { rooms, error, isAuthorized } = this.state;
         return (
             <div className="ListPage">
-                {isAuthorized ? (
-                    <>
-                        <p>My Rooms :</p>
-                        {error && <p>{error}</p>}
-                        <div>
-                            {rooms.length > 0 ? (
-                                rooms.map(room => (
-                                    <Room
-                                        key={room.id}
-                                        {...room}
-                                        deleteRoom={this.deleteRoom(room.id)}
-                                    />
-                                ))
-                            ) : (
-                                <p>No rooms available.</p>
-                            )}
-                        </div>
-                    </>
-                ) : (
-                    'You are not authorized to see this'
-                )}
+                <Container className="ListPage">
+                    {isAuthorized ? (
+                        <>
+                            <Row>
+                                <Col>
+                                    <h1>My Rooms :</h1>
+                                    {error && <p>{error}</p>}
+                                </Col>
+                            </Row>
+                            <Row>
+                                {rooms.length > 0 ? (
+                                    rooms.map(room => (
+                                        <Col>
+                                            <Room
+                                                key={room.id}
+                                                {...room}
+                                                deleteRoom={this.deleteRoom(room.id)}
+                                            />
+                                        </Col>
+                                    ))
+                                ) : (
+                                    <p>No rooms available.</p>
+                                )}
+                            </Row>
+                        </>
+                    ) : (
+                        <p>You are not authorized to see this</p>
+                    )}
+                </Container>
             </div>
         );
     }

@@ -1,14 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardBody, Button } from 'reactstrap';
+import {
+    Card, CardTitle, CardBody, Button,
+} from 'reactstrap';
 
 const Room = ({
     id, number, type, deleteRoom,
 }) => (
     <Card className="Room">
         <CardBody>
-            <p>{number}</p>
-            <p>{type}</p>
+            <CardTitle>
+                {number}
+                {', '}
+                {type}
+            </CardTitle>
             <Button color="danger" onClick={deleteRoom}>
                 Delete
             </Button>
